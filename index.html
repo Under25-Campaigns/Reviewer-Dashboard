@@ -1,33 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>SHEINVERSE Dashboard</title>
+
   <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" href="favicon.png">
+
 </head>
 
 <body>
 
-  <h1>SHEINVERSE Approval Dashboard</h1>
+  <div class="top-bar">
 
-  <div id="loading">
-    Loading submissions...
+    <div class="logo-card">
+
+      <div class="logo-circle">
+        S
+      </div>
+
+      <div class="logo-text">
+        SHEINVERSE
+      </div>
+
+    </div>
+
+    <div class="title-section">
+
+      <h1>SHEINVERSE</h1>
+
+      <h2>APPROVAL DASHBOARD</h2>
+
+    </div>
+
+    <div class="stats-card">
+
+      <div class="stats-title">
+        Pending Submissions
+      </div>
+
+      <div id="pendingCount" class="stats-count">
+        0
+      </div>
+
+      <div class="stats-updated">
+        Auto Refresh: 15s
+      </div>
+
+    </div>
+
   </div>
 
-  <table id="submissionsTable">
+  <div class="table-container">
 
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Phone Number</th>
-        <th>Dashboard Screenshot</th>
-        <th>Action</th>
-      </tr>
-    </thead>
+    <table>
 
-    <tbody id="tableBody"></tbody>
+      <thead>
 
-  </table>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Dashboard Screenshot</th>
+          <th>Action</th>
+        </tr>
+
+      </thead>
+
+      <tbody id="tableBody">
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div class="footer">
+    SHEINVERSE © 2026
+  </div>
 
   <script src="app.js"></script>
 
