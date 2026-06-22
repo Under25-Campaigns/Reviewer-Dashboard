@@ -331,3 +331,40 @@ tbody tr:hover {
   }
 
 }
+
+.brand{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+
+#logoutBtn{
+
+  background:#111;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  color:#cfcfcf;
+
+  font-size:12px;
+
+  padding:7px 16px;
+
+  border-radius:999px;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+#logoutBtn:hover{
+
+  transform:translateY(-1px);
+
+  background:#171717;
+
+  color:white;
+
+}
