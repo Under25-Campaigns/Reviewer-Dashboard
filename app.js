@@ -1,5 +1,5 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyjwo_nLtqkFIPyE5ekSOEGcYsZt7Jjn6YVqq5LWqFdIFBex-B68NSwigeo7lP_YyHh/exec";
+"https://script.google.com/macros/s/AKfycbxsG7R0XInP1YvzSq8RzUKHyyClCGGr6aj3C9O3WCkEzFpz5fxlS46hzRINaGWjF-tbRA/exec";
 
 loadSubmissions();
 
