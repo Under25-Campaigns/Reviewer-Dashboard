@@ -1,6 +1,9 @@
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxvwMbKpyAiS4vedi0kp8TIJglfbyXw_PWxdRBn8otO-i9o3astHfwk5IIgUzojKftJ3Q/exec";
 
+const TOKEN =
+"u25_secure_token";
+
 loadSubmissions();
 
 setInterval(loadSubmissions, 15000);
@@ -11,8 +14,8 @@ try {
 
 const response =
   await fetch(
-    `${API_URL}?mode=list`
-  );
+  `${API_URL}?token=${TOKEN}&mode=list`
+);
 
 const data =
   await response.json();
@@ -107,8 +110,8 @@ try {
 
 const response =
   await fetch(
-    `${API_URL}?mode=${action}&row=${row}`
-  );
+  `${API_URL}?token=${TOKEN}&mode=${action}&row=${row}`
+);
 
 const result =
   await response.json();
