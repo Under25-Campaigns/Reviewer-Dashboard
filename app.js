@@ -1,12 +1,96 @@
+const PASSWORD_HASH =
+"6766741374a71b6e2597c8aa97110dbd361a5172d46ee7869ba5a81c7dc61270";
+
+async function sha256(text) {
+
+  const buffer =
+    await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(text)
+    );
+
+  return [...new Uint8Array(buffer)]
+    .map(b =>
+      b.toString(16).padStart(2, "0")
+    )
+    .join("");
+
+}
+
+async function authenticate() {
+
+  const authenticated =
+    sessionStorage.getItem(
+      "dashboardAuth"
+    );
+
+  if (authenticated === "true") {
+    return true;
+  }
+
+  const password =
+    prompt(
+      "Enter Dashboard Password"
+    );
+
+  if (!password) {
+    return false;
+  }
+
+  const hash =
+    await sha256(password);
+
+  if (hash !== PASSWORD_HASH) {
+
+    document.body.innerHTML = `
+      <div style="
+        background:#000;
+        color:#fff;
+        height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:28px;
+        font-family:Inter,sans-serif;
+      ">
+        Access Denied
+      </div>
+    `;
+
+    return false;
+
+  }
+
+  sessionStorage.setItem(
+    "dashboardAuth",
+    "true"
+  );
+
+  return true;
+
+}
+
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxvwMbKpyAiS4vedi0kp8TIJglfbyXw_PWxdRBn8otO-i9o3astHfwk5IIgUzojKftJ3Q/exec";
 
 const TOKEN =
 "u25_secure_token";
 
-loadSubmissions();
+(async () => {
 
-setInterval(loadSubmissions, 15000);
+  const allowed =
+    await authenticate();
+
+  if (!allowed) return;
+
+  loadSubmissions();
+
+  setInterval(
+    loadSubmissions,
+    15000
+  );
+
+})();
 
 async function loadSubmissions() {
 
