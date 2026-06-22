@@ -10,80 +10,67 @@ setInterval(
 
 async function loadSubmissions() {
 
-  const response =
-    await fetch(API_URL);
+  try {
 
-  const data =
-    await response.json();
+    const response =
+      await fetch(API_URL);
 
-  document
-    .getElementById(
-      "pendingCount"
-    )
-    .innerText =
-    data.length;
+    console.log("Response:", response);
 
-  const tableBody =
+    const data =
+      await response.json();
+
+    console.log("Data:", data);
+
     document
       .getElementById(
+        "pendingCount"
+      ).innerText =
+      data.length;
+
+    const tableBody =
+      document.getElementById(
         "tableBody"
       );
 
-  tableBody.innerHTML = "";
+    tableBody.innerHTML = "";
 
-  data.forEach(
-    (item,index) => {
+    data.forEach((item,index) => {
 
       const row =
-        document.createElement(
-          "tr"
-        );
+        document.createElement("tr");
 
       row.innerHTML = `
-
-        <td>${index+1}</td>
-
+        <td>${index + 1}</td>
         <td>${item.name}</td>
-
         <td>${item.phone}</td>
-
         <td>
-          <a
-            href="${item.screenshot}"
-            target="_blank"
-            class="screenshot-link"
-          >
+          <a href="${item.screenshot}" target="_blank">
             View Screenshot
           </a>
         </td>
-
         <td>
+          <button onclick="updateStatus(${item.row},'APPROVE')">
+            Approve
+          </button>
 
-          <div class="action-buttons">
-
-            <button
-              class="approve-btn"
-              onclick="updateStatus(${item.row},'APPROVE')"
-            >
-              Approve
-            </button>
-
-            <button
-              class="reject-btn"
-              onclick="updateStatus(${item.row},'REJECT')"
-            >
-              Reject
-            </button>
-
-          </div>
-
+          <button onclick="updateStatus(${item.row},'REJECT')">
+            Reject
+          </button>
         </td>
       `;
 
       tableBody.appendChild(row);
 
-    }
-  );
+    });
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+  }
 
 }
 
