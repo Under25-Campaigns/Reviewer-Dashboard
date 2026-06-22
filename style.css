@@ -347,9 +347,11 @@ tbody tr:hover {
 
   color:#cfcfcf;
 
-  font-size:12px;
+  font-size:15px;
 
-  padding:7px 16px;
+  font-weight:600;
+
+  padding:12px 24px;
 
   border-radius:999px;
 
@@ -357,14 +359,18 @@ tbody tr:hover {
 
   transition:.25s;
 
+  min-width:140px;
+
 }
 
 #logoutBtn:hover{
 
-  transform:translateY(-1px);
+  transform:translateY(-2px);
 
   background:#171717;
 
   color:white;
+
+  border-color:rgba(255,255,255,.2);
 
 }
