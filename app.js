@@ -1,6 +1,8 @@
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxsG7R0XInP1YvzSq8RzUKHyyClCGGr6aj3C9O3WCkEzFpz5fxlS46hzRINaGWjF-tbRA/exec";
+const GET_URL =
+"https://script.google.com/macros/s/AKfycbyjwo_nLtqkFIPyE5ekSOEGcYsZt7Jjn6YVqq5LWqFdIFBex-B68NSwigeo7lP_YyHh/exec";
 
+const POST_URL =
+"https://script.google.com/macros/s/AKfycbxsG7R0XInP1YvzSq8RzUKHyyClCGGr6aj3C9O3WCkEzFpz5fxlS46hzRINaGWjF-tbRA/exec";
 loadSubmissions();
 
 setInterval(
@@ -13,7 +15,7 @@ async function loadSubmissions() {
   try {
 
     const response =
-      await fetch(API_URL);
+      await fetch(GET_URL);
 
     console.log("Response:", response);
 
@@ -100,7 +102,7 @@ async function updateStatus(
   );
 
   await fetch(
-    API_URL,
+    POST_URL,
     {
       method: "POST",
       body: formData
