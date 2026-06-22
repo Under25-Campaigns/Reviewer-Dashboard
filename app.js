@@ -110,5 +110,3 @@ async function updateStatus(
   loadSubmissions();
 
 }
-
-}
