@@ -1,12 +1,14 @@
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbyjwo_nLtqkFIPyE5ekSOEGcYsZt7Jjn6YVqq5LWqFdIFBex-B68NSwigeo7lP_YyHh/exec";
+"https://script.google.com/macros/s/AKfycbyjwo_nLtqkFIPyE5ekSOEGcYsZt7Jjn6YVqq5LWqFdIFBex-B68NSwigeo7lP_YyHh/exec";
 
 loadSubmissions();
 
-async function loadSubmissions() {
+setInterval(
+  loadSubmissions,
+  15000
+);
 
-  document.getElementById("loading")
-    .innerText = "Loading submissions...";
+async function loadSubmissions() {
 
   const response =
     await fetch(API_URL);
@@ -14,52 +16,81 @@ async function loadSubmissions() {
   const data =
     await response.json();
 
+  document
+    .getElementById(
+      "pendingCount"
+    )
+    .innerText =
+    data.length;
+
   const tableBody =
-    document.getElementById("tableBody");
+    document
+      .getElementById(
+        "tableBody"
+      );
 
   tableBody.innerHTML = "";
 
-  data.forEach(item => {
+  data.forEach(
+    (item,index) => {
 
-    const row =
-      document.createElement("tr");
+      const row =
+        document.createElement(
+          "tr"
+        );
 
-    row.innerHTML = `
-      <td>${item.name}</td>
-      <td>${item.phone}</td>
-      <td>
-        <a href="${item.screenshot}"
-           target="_blank">
-           Open Screenshot
-        </a>
-      </td>
-      <td>
+      row.innerHTML = `
 
-        <button
-          class="approve"
-          onclick="updateStatus(${item.row}, 'APPROVE')">
-          Approve
-        </button>
+        <td>${index+1}</td>
 
-        <button
-          class="reject"
-          onclick="updateStatus(${item.row}, 'REJECT')">
-          Reject
-        </button>
+        <td>${item.name}</td>
 
-      </td>
-    `;
+        <td>${item.phone}</td>
 
-    tableBody.appendChild(row);
+        <td>
+          <a
+            href="${item.screenshot}"
+            target="_blank"
+            class="screenshot-link"
+          >
+            View Screenshot
+          </a>
+        </td>
 
-  });
+        <td>
 
-  document.getElementById("loading")
-    .innerText = "";
+          <div class="action-buttons">
+
+            <button
+              class="approve-btn"
+              onclick="updateStatus(${item.row},'APPROVE')"
+            >
+              Approve
+            </button>
+
+            <button
+              class="reject-btn"
+              onclick="updateStatus(${item.row},'REJECT')"
+            >
+              Reject
+            </button>
+
+          </div>
+
+        </td>
+      `;
+
+      tableBody.appendChild(row);
+
+    }
+  );
 
 }
 
-async function updateStatus(row, action) {
+async function updateStatus(
+  row,
+  action
+) {
 
   const confirmed =
     confirm(
@@ -68,21 +99,23 @@ async function updateStatus(row, action) {
 
   if (!confirmed) return;
 
-  await fetch(API_URL, {
+  await fetch(
+    API_URL,
+    {
+      method: "POST",
 
-    method: "POST",
-
-    headers: {
-      "Content-Type":
+      headers: {
+        "Content-Type":
         "application/json"
-    },
+      },
 
-    body: JSON.stringify({
-      row,
-      action
-    })
-
-  });
+      body:
+        JSON.stringify({
+          row,
+          action
+        })
+    }
+  );
 
   loadSubmissions();
 
