@@ -112,37 +112,11 @@ async function updateStatus(
 
   if (!confirmed) return;
 
-  try {
+  await fetch(
+    `${GET_URL}?action=${action}&row=${row}`
+  );
 
-    const response =
-      await fetch(
-        POST_URL,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-              row,
-              action
-            })
-        }
-      );
-
-    const result =
-      await response.json();
-
-    console.log(result);
-
-    alert(
-      `${action} successful`
-    );
-
-    loadSubmissions();
+  loadSubmissions();
 
   }
 
