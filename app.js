@@ -99,24 +99,29 @@ async function updateStatus(
 
   if (!confirmed) return;
 
+  const formData =
+    new FormData();
+
+  formData.append(
+    "row",
+    row
+  );
+
+  formData.append(
+    "action",
+    action
+  );
+
   await fetch(
     API_URL,
     {
       method: "POST",
-
-      headers: {
-        "Content-Type":
-        "application/json"
-      },
-
-      body:
-        JSON.stringify({
-          row,
-          action
-        })
+      body: formData
     }
   );
 
   loadSubmissions();
+
+}
 
 }
