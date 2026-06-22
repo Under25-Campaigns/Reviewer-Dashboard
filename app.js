@@ -1,133 +1,153 @@
-const GET_URL =
-"https://script.googleusercontent.com/a/macros/under25.club/echo?user_content_key=AUkAhnSroKbkFjWCmWYubFIfQEIzmEZIc7tg16CjfwAm1pgvWippbF_VQ3HpEi4Z4YYpg0r8AQJNsFKHsJsQuotyOvUIajVZpnDj5Sm-6RqkGRc45mp8I8q7ltSBkF2Kdbb6wqzrO3UlrObjtDoC3U7tmtJ0sIu8bCKsAzPwrQhbSKYe62NgFk5yoLAb3O9OYBN4GwZRBkRdURNoxfWLeI9NE0jmXE2fKhhFuPCUqA6oPP-0nYMhi2Uf-71fc8WG4beHsMh0UDxZyIfyU9ByTqC86RrrX2Ztxdyv8HlFPyA7&lib=Mjl1u9UllXsSxQ9tsPO5lp1wF9HK3kCjO";
-
-const POST_URL =
-"https://script.google.com/macros/s/AKfycbxsG7R0XInP1YvzSq8RzUKHyyClCGGr6aj3C9O3WCkEzFpz5fxlS46hzRINaGWjF-tbRA/exec";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxvwMbKpyAiS4vedi0kp8TIJglfbyXw_PWxdRBn8otO-i9o3astHfwk5IIgUzojKftJ3Q/exec";
 
 loadSubmissions();
 
-setInterval(
-  loadSubmissions,
-  15000
-);
+setInterval(loadSubmissions, 15000);
 
 async function loadSubmissions() {
 
-  try {
+try {
 
-    const response =
-      await fetch(GET_URL);
+```
+const response =
+  await fetch(
+    `${API_URL}?mode=list`
+  );
 
-    const data =
-      await response.json();
+const data =
+  await response.json();
 
-    document
-      .getElementById(
-        "pendingCount"
-      )
-      .innerText =
-      data.length;
+document
+  .getElementById("pendingCount")
+  .innerText =
+  data.length;
 
-    const tableBody =
-      document.getElementById(
-        "tableBody"
-      );
+const tableBody =
+  document.getElementById("tableBody");
 
-    tableBody.innerHTML = "";
+tableBody.innerHTML = "";
 
-    data.forEach(
-      (item, index) => {
+data.forEach((item, index) => {
 
-        const row =
-          document.createElement(
-            "tr"
-          );
+  const row =
+    document.createElement("tr");
 
-        row.innerHTML = `
-          <td>${index + 1}</td>
+  row.innerHTML = `
 
-          <td>${item.name || ""}</td>
+    <td>${index + 1}</td>
 
-          <td>${item.phone || ""}</td>
+    <td>${item.name || ""}</td>
 
-          <td>
-            <a
-              href="${item.screenshot}"
-              target="_blank"
-              class="screenshot-link"
-            >
-              View Screenshot
-            </a>
-          </td>
+    <td>${item.phone || ""}</td>
 
-          <td>
+    <td>
+      <a
+        href="${item.screenshot}"
+        target="_blank"
+        class="screenshot-link"
+      >
+        View Screenshot
+      </a>
+    </td>
 
-            <div class="action-buttons">
+    <td>
 
-              <button
-                class="approve-btn"
-                onclick="updateStatus(${item.row}, 'APPROVE')"
-              >
-                Approve
-              </button>
+      <div class="action-buttons">
 
-              <button
-                class="reject-btn"
-                onclick="updateStatus(${item.row}, 'REJECT')"
-              >
-                Reject
-              </button>
+        <button
+          class="approve-btn"
+          onclick="updateStatus(${item.row}, 'approve')"
+        >
+          Approve
+        </button>
 
-            </div>
+        <button
+          class="reject-btn"
+          onclick="updateStatus(${item.row}, 'reject')"
+        >
+          Reject
+        </button>
 
-          </td>
-        `;
+      </div>
 
-        tableBody.appendChild(
-          row
-        );
+    </td>
 
-      }
-    );
+  `;
 
-  }
+  tableBody.appendChild(row);
 
-  catch (err) {
+});
+```
 
-    console.error(err);
+}
 
-  }
+catch (err) {
+
+```
+console.error(
+  "Load Error:",
+  err
+);
+```
+
+}
 
 }
 
 async function updateStatus(
-  row,
-  action
+row,
+action
 ) {
 
-  const confirmed =
-    confirm(
-      `${action} this submission?`
-    );
+const confirmed =
+confirm(
+`${action.toUpperCase()} this submission?`
+);
 
-  if (!confirmed) return;
+if (!confirmed) return;
 
+try {
+
+```
+const response =
   await fetch(
-    `${GET_URL}?action=${action}&row=${row}`
+    `${API_URL}?mode=${action}&row=${row}`
   );
+
+const result =
+  await response.json();
+
+if (result.success) {
 
   loadSubmissions();
 
-  }
+}
 
-  catch (err) {
+else {
 
-    console.error(err);
+  alert(
+    "Operation failed"
+  );
 
-    alert(
-      "Update failed"
-    );
+}
+```
 
-  }
+}
+
+catch (err) {
+
+```
+console.error(
+  "Update Error:",
+  err
+);
+
+alert(
+  "Update failed"
+);
+```
+
+}
 
 }
