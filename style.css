@@ -343,11 +343,11 @@ tbody tr:hover {
 
   background:#111;
 
-  border:1px solid rgba(255,255,255,.08);
+  border:2px solid rgba(255,255,255,.08);
 
   color:#cfcfcf;
 
-  font-size:15px;
+  font-size:30px;
 
   font-weight:600;
 
