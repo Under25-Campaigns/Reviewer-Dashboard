@@ -1,5 +1,5 @@
 const PASSWORD_HASH =
-"9501947767884a3852d19d73239559fb7bd9641f5bebeb3582428fb0e771d644";
+"4bcf54ed2bf06676f5366cb0a367f02bfcd09896cd1da35e66736b7a54a321c5";
 
 async function sha256(text) {
 
