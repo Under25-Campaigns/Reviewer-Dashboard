@@ -233,3 +233,22 @@ alert(
 }
 
 }
+const logoutBtn =
+document.getElementById(
+  "logoutBtn"
+);
+
+if (logoutBtn) {
+
+  logoutBtn.onclick =
+    () => {
+
+      sessionStorage.removeItem(
+        "dashboardAuth"
+      );
+
+      location.reload();
+
+    };
+
+}
