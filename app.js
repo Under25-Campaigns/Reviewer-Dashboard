@@ -9,10 +9,10 @@ async function loadSubmissions() {
 
 try {
 
-```
+
 const response =
   await fetch(
-    `${API_URL}?mode=list`
+    ${API_URL}?mode=list
   );
 
 const data =
@@ -33,7 +33,7 @@ data.forEach((item, index) => {
   const row =
     document.createElement("tr");
 
-  row.innerHTML = `
+  row.innerHTML = 
 
     <td>${index + 1}</td>
 
@@ -73,23 +73,21 @@ data.forEach((item, index) => {
 
     </td>
 
-  `;
+  ;
 
   tableBody.appendChild(row);
 
 });
-```
+
 
 }
 
 catch (err) {
 
-```
 console.error(
   "Load Error:",
   err
 );
-```
 
 }
 
@@ -102,17 +100,16 @@ action
 
 const confirmed =
 confirm(
-`${action.toUpperCase()} this submission?`
+${action.toUpperCase()} this submission?
 );
 
 if (!confirmed) return;
 
 try {
 
-```
 const response =
   await fetch(
-    `${API_URL}?mode=${action}&row=${row}`
+    ${API_URL}?mode=${action}&row=${row}
   );
 
 const result =
@@ -131,13 +128,12 @@ else {
   );
 
 }
-```
 
 }
 
 catch (err) {
 
-```
+
 console.error(
   "Update Error:",
   err
@@ -146,7 +142,6 @@ console.error(
 alert(
   "Update failed"
 );
-```
 
 }
 
