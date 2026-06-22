@@ -1,8 +1,9 @@
 const GET_URL =
-"https://script.google.com/macros/s/AKfycbyjwo_nLtqkFIPyE5ekSOEGcYsZt7Jjn6YVqq5LWqFdIFBex-B68NSwigeo7lP_YyHh/exec";
+"https://script.googleusercontent.com/a/macros/under25.club/echo?user_content_key=AUkAhnSroKbkFjWCmWYubFIfQEIzmEZIc7tg16CjfwAm1pgvWippbF_VQ3HpEi4Z4YYpg0r8AQJNsFKHsJsQuotyOvUIajVZpnDj5Sm-6RqkGRc45mp8I8q7ltSBkF2Kdbb6wqzrO3UlrObjtDoC3U7tmtJ0sIu8bCKsAzPwrQhbSKYe62NgFk5yoLAb3O9OYBN4GwZRBkRdURNoxfWLeI9NE0jmXE2fKhhFuPCUqA6oPP-0nYMhi2Uf-71fc8WG4beHsMh0UDxZyIfyU9ByTqC86RrrX2Ztxdyv8HlFPyA7&lib=Mjl1u9UllXsSxQ9tsPO5lp1wF9HK3kCjO";
 
 const POST_URL =
 "https://script.google.com/macros/s/AKfycbxsG7R0XInP1YvzSq8RzUKHyyClCGGr6aj3C9O3WCkEzFpz5fxlS46hzRINaGWjF-tbRA/exec";
+
 loadSubmissions();
 
 setInterval(
@@ -17,17 +18,14 @@ async function loadSubmissions() {
     const response =
       await fetch(GET_URL);
 
-    console.log("Response:", response);
-
     const data =
       await response.json();
-
-    console.log("Data:", data);
 
     document
       .getElementById(
         "pendingCount"
-      ).innerText =
+      )
+      .innerText =
       data.length;
 
     const tableBody =
@@ -37,40 +35,66 @@ async function loadSubmissions() {
 
     tableBody.innerHTML = "";
 
-    data.forEach((item,index) => {
+    data.forEach(
+      (item, index) => {
 
-      const row =
-        document.createElement("tr");
+        const row =
+          document.createElement(
+            "tr"
+          );
 
-      row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${item.name}</td>
-        <td>${item.phone}</td>
-        <td>
-          <a href="${item.screenshot}" target="_blank">
-            View Screenshot
-          </a>
-        </td>
-        <td>
-          <button onclick="updateStatus(${item.row},'APPROVE')">
-            Approve
-          </button>
+        row.innerHTML = `
+          <td>${index + 1}</td>
 
-          <button onclick="updateStatus(${item.row},'REJECT')">
-            Reject
-          </button>
-        </td>
-      `;
+          <td>${item.name || ""}</td>
 
-      tableBody.appendChild(row);
+          <td>${item.phone || ""}</td>
 
-    });
+          <td>
+            <a
+              href="${item.screenshot}"
+              target="_blank"
+              class="screenshot-link"
+            >
+              View Screenshot
+            </a>
+          </td>
+
+          <td>
+
+            <div class="action-buttons">
+
+              <button
+                class="approve-btn"
+                onclick="updateStatus(${item.row}, 'APPROVE')"
+              >
+                Approve
+              </button>
+
+              <button
+                class="reject-btn"
+                onclick="updateStatus(${item.row}, 'REJECT')"
+              >
+                Reject
+              </button>
+
+            </div>
+
+          </td>
+        `;
+
+        tableBody.appendChild(
+          row
+        );
+
+      }
+    );
 
   }
 
-  catch(error) {
+  catch (err) {
 
-    console.error(error);
+    console.error(err);
 
   }
 
@@ -88,27 +112,48 @@ async function updateStatus(
 
   if (!confirmed) return;
 
-  const formData =
-    new FormData();
+  try {
 
-  formData.append(
-    "row",
-    row
-  );
+    const response =
+      await fetch(
+        POST_URL,
+        {
+          method: "POST",
 
-  formData.append(
-    "action",
-    action
-  );
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
 
-  await fetch(
-    POST_URL,
-    {
-      method: "POST",
-      body: formData
-    }
-  );
+          body:
+            JSON.stringify({
+              row,
+              action
+            })
+        }
+      );
 
-  loadSubmissions();
+    const result =
+      await response.json();
+
+    console.log(result);
+
+    alert(
+      `${action} successful`
+    );
+
+    loadSubmissions();
+
+  }
+
+  catch (err) {
+
+    console.error(err);
+
+    alert(
+      "Update failed"
+    );
+
+  }
 
 }
